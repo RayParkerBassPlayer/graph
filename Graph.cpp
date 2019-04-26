@@ -6,8 +6,9 @@ ostream &operator<<(ostream &os, const Graph &graph){
   os << "Root: " << *graph.root <<endl;
 
   os << "All Nodes: " << endl;
-  for(NodeVector::const_iterator it = graph.nodes.begin(); it != graph.nodes.end(); it++)
-    os << **it << endl;
+
+  for(Node *node:graph.nodes)
+    os << *node << endl;
 
   return os;
 }
@@ -18,8 +19,8 @@ Graph::Graph(){
 }
 
 Graph::~Graph(){
-  for(NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++)
-    delete *it;
+  for(Node *node:nodes)
+    delete node;
 }
 
 bool Graph::AddNode(Node *toAdd){
