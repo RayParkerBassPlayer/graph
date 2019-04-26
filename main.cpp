@@ -4,11 +4,14 @@
 using namespace std;
 
 int main(void){
-  cout << "Hello, Fucker!" << endl;
-
   Graph *graph = new Graph();
 
-  cout << *graph << end;
+  for(int i = 0; i < 100; i++)
+    graph->AddNode(new Node());
+
+  cout << *graph << endl;
+
+  delete graph;
 
   return 0;
 }

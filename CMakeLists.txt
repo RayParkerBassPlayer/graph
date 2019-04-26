@@ -7,7 +7,9 @@ project("Graph")
 
 add_executable(
   "${PROJECT_NAME}" 
-  "main.cpp"
+  main.cpp
+  graph.cpp
+  node.cpp
 )
 
 # install(TARGETS "${PROJECT_NAME}" DESTINATION bin)
