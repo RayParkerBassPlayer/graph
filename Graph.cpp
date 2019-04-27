@@ -1,3 +1,4 @@
+#include "global_includes.hpp"
 #include "graph.hpp"
 
 using std::endl;
@@ -24,6 +25,8 @@ Graph::~Graph(){
 }
 
 bool Graph::AddNode(Node *toAdd){
+  spdlog::debug("Graph adding node {:s}.", toAdd->ID());
+
   root->AddChild(toAdd);
   nodes.push_back(toAdd);
 
@@ -31,9 +34,18 @@ bool Graph::AddNode(Node *toAdd){
 }
 
 bool Graph::AddNode(Node &parent, Node *toAdd){
+  spdlog::debug("Graph adding node {:s} to {:s}.", toAdd->ID(), parent.ID());
+
   parent.AddChild(toAdd);
   nodes.push_back(toAdd);
 
   return true;
 }
 
+bool Graph::InsertNode(Node &parent, Node *toAdd, Node &child){
+  return false;
+}
+
+bool Graph::RemoveNode(Node *toRemove, bool patchGraph){
+  return false;
+}

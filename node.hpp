@@ -10,6 +10,7 @@ using std::ostream;
 using std::string;
 
 class Node{
+    Node *parent = 0;
     string id, type, value;
     NodeVector children;
 
@@ -18,9 +19,13 @@ class Node{
       return HexGenerator::generate_hex(16);
     }
 
+    bool SetParent(Node *newParent);
+
   public:
     Node():id(GetId()){};
     Node(const string &type, const string &value = ""):id(GetId()), type(type), value(value){};
+
+    const string &ID(void){return id;}
 
     bool AddChild(Node *toAdd);
 
