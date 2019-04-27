@@ -17,11 +17,7 @@ int main(void){
 
   spdlog::info("...finished loading Graph");
 
-  // cout << *graph << endl;
-  //
-  // delete graph;
-
-  spdlog::info("Graph shutting down.");
+  delete graph;
 
   return 0;
 }
