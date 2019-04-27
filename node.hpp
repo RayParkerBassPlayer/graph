@@ -10,9 +10,8 @@ using std::ostream;
 using std::string;
 
 class Node{
-    Node *parent = 0;
+    NodeVector parents, children;
     string id, type, value;
-    NodeVector children;
 
     // Standardize ID generation.
     string GetId(void){
@@ -25,11 +24,16 @@ class Node{
     Node():id(GetId()){};
     Node(const string &type, const string &value = ""):id(GetId()), type(type), value(value){};
 
+    bool Orphaned(void) const{return parents.size() == 0;}
+
     const string &ID(void){return id;}
 
     bool AddChild(Node *toAdd);
 
+    bool operator ==(const Node &node);
     friend ostream& operator<<(ostream& os, const Node& node);
 };
+
+extern const Node NULL_NODE;
 
 #endif
