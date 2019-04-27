@@ -20,8 +20,15 @@ Graph::Graph(){
 }
 
 Graph::~Graph(){
-  for(Node *node:nodes)
-    delete node;
+  spdlog::critical("Graph shutting down.");
+  spdlog::info("Deleting nodes...");
+
+  for(Node *node:nodes){
+    spdlog::info("Deleting {:s}", node->ID());
+    delete node;   
+  }
+
+  spdlog::info("All nodes deleted.");
 }
 
 bool Graph::AddNode(Node *toAdd){
