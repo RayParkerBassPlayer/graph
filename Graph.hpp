@@ -18,6 +18,11 @@ class Graph{
     bool AddNode(Node *toAdd);
     bool AddNode(Node &parent, Node *toAdd);
 
+    Node *FindNode(const string &ID);
+    Node *FindNode(const char *ID){
+      return FindNode(string(ID));
+    }
+
     // Insert node between two other nodes, patching up the route.
     bool InsertNode(Node &parent, Node *toAdd, Node &child);
 

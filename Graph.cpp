@@ -49,3 +49,8 @@ bool Graph::InsertNode(Node &parent, Node *toAdd, Node &child){
 bool Graph::RemoveNode(Node *toRemove, bool patchGraph){
   return false;
 }
+
+Node *Graph::FindNode(const string &ID){
+  return (Node *)&NULL_NODE;
+}
+
