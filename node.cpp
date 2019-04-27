@@ -11,11 +11,14 @@ bool Node::AddChild(Node *toAdd){
   children.push_back(toAdd);
   toAdd->SetParent(this);
 
+  childIds.push_back(toAdd->ID());
+
   return true;
 }
 
 bool Node::SetParent(Node *newParent){
   parents.push_back(newParent);
+  parentIds.push_back(newParent->ID());
 
   return true;
 }

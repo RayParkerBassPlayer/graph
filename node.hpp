@@ -11,6 +11,8 @@ using std::string;
 
 class Node{
     NodeVector parents, children;
+    IdList parentIds, childIds;
+
     string id, type, value;
 
     // Standardize ID generation.
