@@ -28,7 +28,9 @@ class Node{
 
     bool Orphaned(void) const{return parents.size() == 0;}
 
-    const string &ID(void){return id;}
+    const string &ID(void) const{return id;}
+    const string &Type(void) const{return type;}
+    const string &Value(void) const{return value;}
 
     bool AddChild(Node *toAdd);
 
