@@ -16,13 +16,19 @@ typedef vector<Path> PathVector;
 
 class Graph{
   Node *root;
+
+  // A master index of all nodes.  Operate with the private manipulators, only!
   NodeVector nodes;
+
+  void AddToIndex(Node *toAdd);
+  void RemoveFromIndex(Node *toRemove);
 
   public:
     Graph();
     ~Graph();
 
     Node *Root(void) const{return root;}
+    const NodeVector &Index(void) const{return nodes;}
 
     void AddNode(Node *toAdd);
     void AddNode(Node *parent, Node *toAdd);

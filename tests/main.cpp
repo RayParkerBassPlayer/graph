@@ -44,6 +44,26 @@ int main(void){
         expect(olderNode->Parents().front() == newerNode);
       });
 
+  graphSpecs.Spec("Properly adds an node to the mother index only once", [](){
+        Graph graph;
+
+        expect(graph.Index().size() == 1);
+
+        Node *addManyTimes = new Node(),
+             *anotherNode = new Node();
+
+        graph.AddNode(addManyTimes);
+        expect(graph.Index().size() == 2);
+
+        graph.AddNode(anotherNode);
+        expect(graph.Index().size() == 3);
+
+        // Adding node to Graph again with different relationships, 
+        // but it's already in the index and should not be added to the index again.
+        graph.AddNode(anotherNode, addManyTimes);
+        expect(graph.Index().size() == 3);
+      });
+
   // graphSpecs.Spec("Returns expected path for a 2-level graph", [](){
   //       Graph graph;
   //       Node *secondLevel = new Node("2nd Level"),

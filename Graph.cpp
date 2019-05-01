@@ -1,7 +1,7 @@
 #include "global_includes.hpp"
 #include "graph.hpp"
 
-using std::endl;
+using namespace std;
 
 ostream &operator<<(ostream &os, const Graph &graph){
   os << "Root: " << *graph.root <<endl;
@@ -16,7 +16,7 @@ ostream &operator<<(ostream &os, const Graph &graph){
 
 Graph::Graph(){
   root = new Node(string("system_root"));
-  nodes.push_back(root);
+  AddToIndex(root);
 }
 
 Graph::~Graph(){
@@ -25,18 +25,37 @@ Graph::~Graph(){
   }
 }
 
+// Everything is done with Node.ID().
+void Graph::AddToIndex(Node *toAdd){
+  NodeVector::iterator it = find_if(nodes.begin(), nodes.end(), [&](const Node *currentNode){
+        return currentNode->ID() == toAdd->ID();
+      });
+
+  // Only add to index if it doesn't exist.
+  if(it == nodes.end()){
+    nodes.push_back(toAdd);
+    sort(nodes.begin(), nodes.end(), [](const Node *left, const Node *right){
+          return left->ID() < right->ID();
+        });
+  }
+}
+
+void Graph::RemoveFromIndex(Node *toRemove){
+
+}
+
 void Graph::AddNode(Node *toAdd){
   root->AddChild(toAdd);
   toAdd->AddParent(root);
 
-  nodes.push_back(toAdd);
+  AddToIndex(toAdd);
 }
 
 void Graph::AddNode(Node *parent, Node *toAdd){
   parent->AddChild(toAdd);
   toAdd->AddParent(parent);
 
-  nodes.push_back(toAdd);
+  AddToIndex(toAdd);
 }
 
 void Graph::InsertNode(Node *parent, Node *toAdd, Node *child){
@@ -49,7 +68,7 @@ void Graph::InsertNode(Node *parent, Node *toAdd, Node *child){
   parent->RemoveChild(child);
   child->RemoveParent(parent);
 
-  nodes.push_back(toAdd);
+  AddToIndex(toAdd);
 }
 
 void Graph::RemoveNode(Node *toRemove, bool patchGraph){
