@@ -64,6 +64,16 @@ int main(void){
         expect(graph.Index().size() == 3);
       });
 
+  graphSpecs.Spec("Finds a node in its index", [](){
+        Graph graph;
+        Node *toFind = new Node();
+
+        expect(graph.FindNode(toFind->ID()) == &NULL_NODE);
+
+        graph.AddNode(toFind);
+        expect(graph.FindNode(toFind->ID()) == toFind);
+      });
+
   // graphSpecs.Spec("Returns expected path for a 2-level graph", [](){
   //       Graph graph;
   //       Node *secondLevel = new Node("2nd Level"),

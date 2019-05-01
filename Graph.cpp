@@ -41,7 +41,7 @@ void Graph::AddToIndex(Node *toAdd){
 }
 
 void Graph::RemoveFromIndex(Node *toRemove){
-
+  throw "Write me!";
 }
 
 void Graph::AddNode(Node *toAdd){
@@ -75,7 +75,14 @@ void Graph::RemoveNode(Node *toRemove, bool patchGraph){
 }
 
 Node *Graph::FindNode(const string &ID){
-  return (Node *)&NULL_NODE;
+  NodeVector::iterator it = find_if(nodes.begin(), nodes.end(), [&](const Node *currentNode){
+        return currentNode->ID() == ID;
+      });
+
+  if(it == nodes.end())
+    return (Node *)&NULL_NODE;
+
+  return *it;
 }
 
 PathVector *Graph::PathTo(const Node *toTrace) const{
