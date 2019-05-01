@@ -19,5 +19,7 @@ add_executable(
 add_executable(
   "${PROJECT_NAME}Tests"
   tests/main.cpp
+  graph.cpp
+  node.cpp
 )
 
