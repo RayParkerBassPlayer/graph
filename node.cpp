@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "global_includes.hpp"
 #include "node.hpp"
 
@@ -5,22 +6,26 @@ using std::endl;
 
 const Node NULL_NODE("NULL_NODE", "NULL");
 
-bool Node::AddChild(Node *toAdd){
-  spdlog::debug("{:s} adding child {:s}.", this-> id, toAdd->id);
-
+void Node::AddChild(Node *toAdd){
   children.push_back(toAdd);
-  toAdd->SetParent(this);
-
-  childIds.push_back(toAdd->ID());
-
-  return true;
 }
 
-bool Node::SetParent(Node *newParent){
-  parents.push_back(newParent);
-  parentIds.push_back(newParent->ID());
+void Node::AddParent(Node *toAdd){
+  parents.push_back(toAdd);
+}
 
-  return true;
+void Node::RemoveChild(Node *toRemove){
+  NodeVector::iterator foundNode = find(children.begin(), children.end(), toRemove);
+
+  if(foundNode != children.end())
+    children.erase(foundNode);
+}
+
+void Node::RemoveParent(Node *toRemove){
+  NodeVector::iterator foundNode = find(parents.begin(), parents.end(), toRemove);
+
+  if(foundNode != parents.end())
+    parents.erase(foundNode);
 }
 
 ostream &operator<<(ostream &os, const Node &node){
@@ -50,3 +55,12 @@ ostream &operator<<(ostream &os, const Node &node){
 bool Node::operator ==(const Node &node){
   return id == node.id;
 }
+
+bool Node::HasParent(const Node *toFind) const{
+  return find(parents.begin(), parents.end(), toFind) != parents.end();
+}
+
+bool Node::HasChild(const Node *toFind){
+  return find(children.begin(), children.end(), toFind) != children.end();
+}
+

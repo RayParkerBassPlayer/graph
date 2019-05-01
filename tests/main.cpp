@@ -1,45 +1,61 @@
-#include <iostream>
-#include <string>
-#include <list>
-#include <utility>
-#include "../global_includes.hpp"
-
+#include "SpecSuite.hpp"
 #include "../node.hpp"
-
-using namespace std;
-
-typedef bool (*TestMethod)(void);
-
-typedef pair<TestMethod, string> TestEntry;
-typedef list<TestEntry> TestList;
-
-TestList tests;
-
-bool NodeFields(void){
-  string type = "generic",
-         value = "Some Value";
-  Node node(type, value);
-
-  if(node.Type() != type)
-    return false;
-
-  if(node.Value() != value)
-    return false;
-
-  return true;
-}
+#include "../graph.hpp"
 
 int main(void){
-  spdlog::info("Starting tests...");
-  tests.push_back(TestEntry(&NodeFields, "Node fields work as expected."));
+  SpecSuite nodeSuite("Node structure and validation");
 
-  for(TestEntry entry:tests){
-    if(entry.first())
-      spdlog::info(entry.second);
-    else
-      spdlog::error(entry.second);
-  }
+  nodeSuite.Spec("Setters and getters properly store values.", [](){
+        string type = "SomeType", value = "Some Value";
+        Node node(type, value);
 
-  spdlog::info("Tada!");
+        expect(node.Value() != type);
+        expect(node.Type() == type);
+        expect(node.Value() == value);
+      });
+
+
+  nodeSuite.Run();
+
+  SpecSuite graphSpecs("Graph manipulation");
+
+  graphSpecs.Spec("Adds a node below the root", [](){
+        Graph graph;
+        Node *childNode = new Node("2nd Level", "Some Value");
+        string childID = childNode->ID();
+
+        graph.AddNode(childNode);
+        
+        expect(graph.Root()->Children().size() == 1);
+        expect(graph.Root()->Children().front()->ID() == childID);
+      });
+
+  graphSpecs.Spec("Inserts a node between two others", [](){
+        Graph graph;
+        Node *olderNode = new Node("OldNode"),
+             *newerNode = new Node("Newer Node");
+
+        graph.AddNode(olderNode);
+        graph.InsertNode(graph.Root(), newerNode, olderNode);
+
+        expect(graph.Root()->Children().size() == 1);
+        expect(graph.Root()->Children().front() == newerNode);
+        expect(olderNode->Children().size() == 0);
+        expect(olderNode->Parents().front() == newerNode);
+      });
+
+  // graphSpecs.Spec("Returns expected path for a 2-level graph", [](){
+  //       Graph graph;
+  //       Node *secondLevel = new Node("2nd Level"),
+  //            *thirdLevel = new Node("3rd Level");
+  //
+  //       graph.AddNode(secondLevel);
+  //       graph.AddNode(secondLevel, thirdLevel);
+  //
+  //       paths = graph.PathTo(thirdLevel);
+  //
+  //     });
+
+  graphSpecs.Run();
   return 0;
 }

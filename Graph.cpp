@@ -20,44 +20,47 @@ Graph::Graph(){
 }
 
 Graph::~Graph(){
-  spdlog::critical("Graph shutting down.");
-  spdlog::info("Deleting nodes...");
-
   for(Node *node:nodes){
-    spdlog::info("Deleting {:s}", node->ID());
     delete node;   
   }
-
-  spdlog::info("All nodes deleted.");
 }
 
-bool Graph::AddNode(Node *toAdd){
-  spdlog::debug("Graph adding node {:s}.", toAdd->ID());
-
+void Graph::AddNode(Node *toAdd){
   root->AddChild(toAdd);
+  toAdd->AddParent(root);
+
   nodes.push_back(toAdd);
-
-  return true;
 }
 
-bool Graph::AddNode(Node &parent, Node *toAdd){
-  spdlog::debug("Graph adding node {:s} to {:s}.", toAdd->ID(), parent.ID());
+void Graph::AddNode(Node *parent, Node *toAdd){
+  parent->AddChild(toAdd);
+  toAdd->AddParent(parent);
 
-  parent.AddChild(toAdd);
   nodes.push_back(toAdd);
-
-  return true;
 }
 
-bool Graph::InsertNode(Node &parent, Node *toAdd, Node &child){
-  return false;
+void Graph::InsertNode(Node *parent, Node *toAdd, Node *child){
+  parent->AddChild(toAdd);
+  toAdd->AddParent(parent);
+
+  child->AddParent(toAdd);
+  toAdd->AddChild(child);
+
+  parent->RemoveChild(child);
+  child->RemoveParent(parent);
+
+  nodes.push_back(toAdd);
 }
 
-bool Graph::RemoveNode(Node *toRemove, bool patchGraph){
-  return false;
+void Graph::RemoveNode(Node *toRemove, bool patchGraph){
 }
 
 Node *Graph::FindNode(const string &ID){
   return (Node *)&NULL_NODE;
 }
+
+PathVector *Graph::PathTo(const Node *toTrace) const{
+  return 0;
+}
+
 
