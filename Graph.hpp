@@ -11,8 +11,8 @@ using std::ostream;
 using std::vector;
 using std::list;
 
-typedef list<Node *> Path;
-typedef vector<Path> PathVector;
+typedef list<Node *> GraphPath;
+typedef vector<GraphPath *> GraphPaths;
 
 class Graph{
   Node *root;
@@ -22,6 +22,7 @@ class Graph{
 
   void AddToIndex(Node *toAdd);
   void RemoveFromIndex(Node *toRemove);
+  GraphPath *FindPaths(Node *node);
 
   public:
     Graph();
@@ -38,13 +39,13 @@ class Graph{
       return FindNode(string(ID));
     }
 
+    GraphPaths *Paths(Node *node);
+
     // Insert node between two other nodes, patching up the route.
     void InsertNode(Node *parent, Node *toAdd, Node *child);
     // If patchGraph is true, route will be updated to pass through node.  
     // Otherwise all relationships are removed.
     void RemoveNode(Node *toRemove, bool patchGraph = false);
-
-    PathVector *PathTo(const Node *toTrace) const;
 
     friend ostream& operator<<(ostream& os, const Graph& graph);
 };

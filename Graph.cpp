@@ -85,8 +85,40 @@ Node *Graph::FindNode(const string &ID){
   return *it;
 }
 
-PathVector *Graph::PathTo(const Node *toTrace) const{
+GraphPath *Graph::FindPaths(Node *node){
+  if(node->Orphaned() && node != root)
+    return 0;
+
+  GraphPath *path = new GraphPath();
+
+  if(node == root){
+    path->push_front(node);
+
+    return path;
+  }
+
+  GraphPath *foundPath = FindPaths(node->Parents()[0]);
+
+  if(foundPath){
+    path->push_front(node);
+    path->splice(path->end(), *foundPath);
+    delete foundPath;
+
+    return path;
+  }
+
   return 0;
 }
 
+GraphPaths *Graph::Paths(Node *node){
+  GraphPaths *paths = new GraphPaths();
 
+  GraphPath *path = FindPaths(node->Parents()[0]);
+
+  if(path){
+    path->push_front(node);
+    paths->push_back(path);
+  }
+
+  return paths;
+}
