@@ -5,14 +5,12 @@
 #include <list>
 #include <vector>
 #include "node.hpp"
+#include "GraphPaths.hpp"
 #include "typedefs.hpp"
 
 using std::ostream;
 using std::vector;
 using std::list;
-
-typedef list<Node *> GraphPath;
-typedef vector<GraphPath *> GraphPaths;
 
 class Graph{
   Node *root;

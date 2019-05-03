@@ -90,9 +90,42 @@ int main(void){
         expect(paths->size() == 1);
         expect(paths->front()->size() == 4);
 
+        GraphPath &onlyPath = *paths->front();
+        vector<string> ids;
+
+        ids.push_back(level4->ID());
+        ids.push_back(level3->ID());
+        ids.push_back(level2->ID());
+        ids.push_back(graph.Root()->ID());
+
+        int o = 0;
+
+        for(Node *node : onlyPath){
+          expect(node->ID() == ids[o]);
+          o++;
+        }
+
         delete paths;
       });
 
+  graphSpecs.Spec("Returns paths for a multiple paths", [](){
+        Graph graph;
+        Node *level2 = new Node(), 
+             *level3 = new Node(), 
+             *level4 = new Node();
+
+        graph.AddNode(level2);
+        graph.AddNode(level2, level3);
+        graph.AddNode(level3, level4);
+
+        GraphPaths *paths = graph.Paths(level4);
+
+        expect(paths != NULL);
+        expect(paths->size() == 1);
+        expect(paths->front()->size() == 4);
+
+        delete paths;
+      });
   // graphSpecs.Spec("Returns expected path for a 2-level graph", [](){
   //       Graph graph;
   //       Node *secondLevel = new Node("2nd Level"),
