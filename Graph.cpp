@@ -85,7 +85,7 @@ Node *Graph::FindNode(const string &ID){
   return *it;
 }
 
-GraphPath *Graph::FindPaths(Node *node){
+GraphPath *Graph::FindPaths(Node *node) const{
   if(node->Orphaned() && node != root)
     return 0;
 
@@ -110,7 +110,7 @@ GraphPath *Graph::FindPaths(Node *node){
   return 0;
 }
 
-GraphPaths *Graph::Paths(Node *node){
+GraphPaths *Graph::Paths(Node *node) const{
   GraphPaths *paths = new GraphPaths();
 
   GraphPath *path = FindPaths(node->Parents()[0]);
@@ -121,4 +121,14 @@ GraphPaths *Graph::Paths(Node *node){
   }
 
   return paths;
+}
+NodeList *Graph::Siblings(Node *node) const{
+  NodeList *siblings = new NodeList();
+
+  for(Node *parent : node->Parents()){
+    for(Node *sibling : parent ->Children())
+      siblings->push_back(sibling);
+  }
+
+  return siblings;
 }

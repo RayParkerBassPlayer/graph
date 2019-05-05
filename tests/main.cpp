@@ -126,6 +126,35 @@ int main(void){
 
         delete paths;
       });
+
+  graphSpecs.Spec("Returns siblings for a node in the simple case", [](){
+        Graph graph;
+        Node *sibling1 = new Node(),
+             *sibling2 = new Node(),
+             *sibling3 = new Node();
+
+        graph.AddNode(sibling1);
+        graph.AddNode(sibling2);
+        graph.AddNode(sibling3);
+
+        NodeList list;
+
+        list.push_back(sibling1);
+        list.push_back(sibling2);
+        list.push_back(sibling3);
+
+        NodeList *siblings = graph.Siblings(sibling1);
+
+        expect(siblings->size() == 3);
+
+        for(Node *sibling : list){
+          expect(find_if(siblings->begin(), siblings->end(), [&](Node *toCompare){
+                  return sibling->ID() == toCompare->ID();
+                }) != siblings->end());
+        }
+
+        delete siblings;
+      });
   // graphSpecs.Spec("Returns expected path for a 2-level graph", [](){
   //       Graph graph;
   //       Node *secondLevel = new Node("2nd Level"),

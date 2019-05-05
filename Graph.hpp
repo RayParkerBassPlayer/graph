@@ -20,7 +20,7 @@ class Graph{
 
   void AddToIndex(Node *toAdd);
   void RemoveFromIndex(Node *toRemove);
-  GraphPath *FindPaths(Node *node);
+  GraphPath *FindPaths(Node *node) const;
 
   public:
     Graph();
@@ -37,7 +37,8 @@ class Graph{
       return FindNode(string(ID));
     }
 
-    GraphPaths *Paths(Node *node);
+    GraphPaths *Paths(Node *node) const;
+    NodeList *Siblings(Node *node) const;
 
     // Insert node between two other nodes, patching up the route.
     void InsertNode(Node *parent, Node *toAdd, Node *child);

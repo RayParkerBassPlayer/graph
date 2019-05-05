@@ -11,6 +11,7 @@ using std::string;
 
 class Node;
 typedef vector<Node *> NodeVector;
+typedef list<Node *> NodeList;
 
 typedef list<string> IdList;
 
