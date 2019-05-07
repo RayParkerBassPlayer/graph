@@ -130,5 +130,8 @@ NodeList *Graph::Siblings(Node *node) const{
       siblings->push_back(sibling);
   }
 
+  siblings->sort();
+  siblings->unique();
+
   return siblings;
 }
