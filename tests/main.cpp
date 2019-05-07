@@ -139,6 +139,7 @@ int main(void){
 
         NodeList list;
 
+        // Put siblings in a list for DRYer checking of return from graph.
         list.push_back(sibling1);
         list.push_back(sibling2);
         list.push_back(sibling3);
@@ -147,6 +148,56 @@ int main(void){
 
         expect(siblings->size() == 3);
 
+        // Go through all siblings and make sure that they are returned from the graph, including sibling1.
+        for(Node *sibling : list){
+          expect(find_if(siblings->begin(), siblings->end(), [&](Node *toCompare){
+                  return sibling->ID() == toCompare->ID();
+                }) != siblings->end());
+        }
+
+        delete siblings;
+      });
+
+  graphSpecs.Spec("Returns siblings for a node in a multi-parent case", [](){
+        Graph graph;
+        Node *sibling1 = new Node(),
+             *sibling2 = new Node(),
+             *sibling3 = new Node(),
+             *sibling4 = new Node(),
+             *sibling5 = new Node(),
+             *sibling6 = new Node(),
+             *parent1 = new Node(),
+             *parent2 = new Node();
+
+        graph.AddNode(parent1);     
+        graph.AddNode(parent2);     
+
+        graph.AddNode(parent1, sibling1);
+        graph.AddNode(parent1, sibling2);
+        graph.AddNode(parent1, sibling3);
+
+        graph.AddNode(parent2, sibling4);
+        graph.AddNode(parent2, sibling5);
+        graph.AddNode(parent2, sibling6);
+
+        // This is the connection -- siblings are all connected by sibling1 having common parents with all other siblings.
+        sibling1->AddParent(parent2);
+
+        NodeList list;
+
+        // Put siblings in a list for DRYer checking of return from graph.
+        list.push_back(sibling1);
+        list.push_back(sibling2);
+        list.push_back(sibling3);
+        list.push_back(sibling4);
+        list.push_back(sibling5);
+        list.push_back(sibling6);
+
+        NodeList *siblings = graph.Siblings(sibling1);
+
+        expect(siblings->size() == 6);
+
+        // Go through all siblings and make sure that they are returned from the graph, including sibling1.
         for(Node *sibling : list){
           expect(find_if(siblings->begin(), siblings->end(), [&](Node *toCompare){
                   return sibling->ID() == toCompare->ID();
