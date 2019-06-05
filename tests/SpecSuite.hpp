@@ -27,6 +27,7 @@ class SpecSuite {
 
   public:
     SpecSuite(const char *Name):name(Name){}
+
     void Spec(const char *description, TestMethod method){
       tests.push_back(TestEntry(method, description));
     }
