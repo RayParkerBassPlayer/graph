@@ -43,7 +43,7 @@ class SpecSuite {
 
     void Run(void) const{
       spdlog::info("SUITE: Starting run of '{:s}'", name);
-      bool errors = false;
+      int numErrors = 0;
 
       for(TestEntry entry : tests){
         try{
@@ -52,27 +52,24 @@ class SpecSuite {
         }
         catch(exception &e){
           spdlog::error("{:s} -- Exception caught: {:s}", entry.second, e.what());
-          errors = true;
+          numErrors++;
         }
         catch(const string &message){
           spdlog::error("{:s}: {:s}", entry.second, message);
-          errors = true;
+          numErrors++;
         }
         catch(const char *message){
           spdlog::error("{:s}: {:s}", entry.second, message);
-          errors = true;
+          numErrors++;
         }
         catch(...){
           spdlog::error("{:s} -- Unknown exception caught.", entry.second);
-          errors = true;
+          numErrors++;
         }
 
       }
 
-      if(errors)
-        spdlog::error("SUITE: '{:s}' finished with errors", name);
-      else
-        spdlog::info("SUITE: '{:s}' completed succesfully.", name);
+      spdlog::info("SUITE: '{:s}' finished {:d} tests with {:d} error(s).", name, tests.size(), numErrors);
     }
 };
 

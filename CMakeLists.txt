@@ -12,14 +12,14 @@ find_library(spdlog CONFIG REQUIRED)
 add_executable(
   "${PROJECT_NAME}" 
   main.cpp
-  graph.cpp
+  Graph.cpp
   node.cpp
 )
 
 add_executable(
   "${PROJECT_NAME}Tests"
   tests/main.cpp
-  graph.cpp
+  Graph.cpp
   node.cpp
 )
 

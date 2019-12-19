@@ -1,6 +1,6 @@
 #include "SpecSuite.hpp"
 #include "../node.hpp"
-#include "../graph.hpp"
+#include "../Graph.hpp"
 
 int main(void){
   SpecSuite nodeSuite("Node structure and validation");

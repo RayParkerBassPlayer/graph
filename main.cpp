@@ -1,6 +1,6 @@
 #include <iostream>
 #include "global_includes.hpp"
-#include "graph.hpp"
+#include "Graph.hpp"
 
 using namespace std;
 
