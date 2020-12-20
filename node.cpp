@@ -7,11 +7,13 @@ using std::endl;
 const Node NULL_NODE("NULL_NODE", "NULL");
 
 void Node::AddChild(Node *toAdd){
-  children.push_back(toAdd);
+  if(!HasChild(toAdd))
+    children.push_back(toAdd);
 }
 
 void Node::AddParent(Node *toAdd){
-  parents.push_back(toAdd);
+  if(!HasParent(toAdd))
+    parents.push_back(toAdd);
 }
 
 void Node::RemoveChild(Node *toRemove){

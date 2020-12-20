@@ -24,11 +24,14 @@ class Node{
     Node(const string &type, const string &value = ""):id(GetId()), type(type), value(value){};
 
     const NodeVector &Parents(void) const{return parents;}
+
+    
+    // Test that node has given node as a parent.
     bool HasParent(const Node *toFind) const;
 
     const NodeVector &Children(void) const{return children;}
+    // Test that node has a given node as a direct child
     bool HasChild(const Node *toFind);
-    
 
     bool Orphaned(void) const{return parents.size() == 0;}
 

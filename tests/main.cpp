@@ -213,5 +213,8 @@ int main(void){
   //     });
 
   graphSpecs.Run();
+
+  delete graph;
+
   return 0;
 }
