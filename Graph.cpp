@@ -122,6 +122,7 @@ GraphPaths *Graph::Paths(Node *node) const{
 
   return paths;
 }
+
 NodeList *Graph::Siblings(Node *node) const{
   NodeList *siblings = new NodeList();
 

@@ -1,45 +1,33 @@
 #include <iostream>
 #include "global_includes.hpp"
 #include "Graph.hpp"
-
-#include <mysql_connection.h>
-#include <cppconn/driver.h>
-#include <cppconn/exception.h>
-#include <cppconn/resultset.h>
-#include <cppconn/statement.h>
+#include "database.hpp"
 
 using namespace std;
 using namespace sql;
+using namespace spdlog;
 
 int main(void){
-  spdlog::set_level(spdlog::level::debug);
+  set_level(level::debug);
 
-  spdlog::info("Graph starting up.");
-  // Graph *graph = new Graph();
-  //
-  // spdlog::info("Loading graph...");
-  //
-  // for(int i = 0; i < 100; i++)
-  //   graph->AddNode(new Node());
-  //
-  // spdlog::info("...finished loading Graph");
-  //
-  // delete graph;
+  info("Graph starting up.");
 
-  spdlog::info("Getting driver");
-  sql::Driver *driver = get_driver_instance();
+  Database db;
 
-  spdlog::info("Connecting to db");
-  sql::Connection *connection = driver->connect("tcp://localhost:3306", "graph", "password");
+  Graph *graph = new Graph();
 
-  sql::Statement *statement = connection->createStatement();
-  statement->execute("use graph");
-  statement->execute("drop table if exists test");
-  statement->execute("CREATE TABLE test(id INT, label CHAR(1))");
-  statement->execute("INSERT INTO test(id, label) VALUES (1, 'a')");
+  info("Loading graph...");
 
-  spdlog::info("Closing DB connection.");
-  delete connection;
+  for(int i = 0; i < 100; i++)
+    graph->AddNode(new Node());
+
+  info("...finished loading Graph");
+
+  cout << *graph << endl;
+
+  delete graph;
+
+  info("All done.");
 
   return 0;
 }

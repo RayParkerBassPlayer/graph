@@ -74,6 +74,7 @@ add_executable(
   main.cpp
   Graph.cpp
   node.cpp
+  database.cpp
 )
 
 target_link_libraries("${PROJECT_NAME}" ${MYSQLCONNECTORCPP_LIBRARY})
@@ -83,6 +84,7 @@ add_executable(
   tests/main.cpp
   Graph.cpp
   node.cpp
+  database.cpp
 )
 
 target_link_libraries("${PROJECT_NAME}Tests" ${MYSQLCONNECTORCPP_LIBRARY})

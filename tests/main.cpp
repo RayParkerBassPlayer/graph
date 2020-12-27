@@ -15,6 +15,56 @@ int main(void){
         expect(node.Value() != type);
         expect(node.Type() == type);
         expect(node.Value() == value);
+        expect(node.Dirty() == true)
+      });
+
+  nodeSuite.Spec("Node creation and dirtiness", [](){
+        Node node;
+
+        expect(node.Dirty() == true)
+      });
+
+  nodeSuite.Spec("Dirtiness and setters and getters", [](){
+        Node node;
+
+        // Sanity check; using Write() to set node clean.
+        node.Write();
+        expect(node.Dirty() == false)
+
+        node.SetType("some type");
+        expect(node.Dirty() == true)
+
+        node.Write(); // reset to clean
+        string s = "Some Value";
+        node.SetType(s);
+        expect(node.Dirty() == true)
+
+        node.Write(); // reset to clean
+        node.SetValue("some type");
+        expect(node.Dirty() == true)
+      });
+
+  nodeSuite.Spec("Dirtiness and relationships", [](){
+        Node node, parent, child;
+
+        // Sanity check; using Write() to set node clean.
+        node.Write();
+        expect(node.Dirty() == false)
+
+        node.AddChild(&child);
+        expect(node.Dirty() == true)
+
+        node.Write(); // reset to clean
+        node.AddParent(&parent);
+        expect(node.Dirty() == true)
+
+        node.Write(); // reset to clean
+        node.RemoveParent(&parent);
+        expect(node.Dirty() == true)
+
+        node.Write(); // reset to clean
+        node.RemoveChild(&child);
+        expect(node.Dirty() == true)
       });
 
 
