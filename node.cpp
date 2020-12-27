@@ -6,32 +6,65 @@ using std::endl;
 
 const Node NULL_NODE("NULL_NODE", "NULL");
 
+bool Node::Write(void){
+  SetClean();
+  return false;
+}
+
+bool Node::Read(void){
+  SetClean();
+  return false;
+}
+
+bool Node::SetDirty(const bool dirtyState){
+  dirty = dirtyState;
+
+  return dirty;
+}
+
+bool Node::SetClean(void){
+  SetDirty(false);
+
+  return dirty;
+}
+
 void Node::AddChild(Node *toAdd){
-  if(!HasChild(toAdd))
+  if(!HasChild(toAdd)){
     children.push_back(toAdd);
+    SetDirty();
+  }
 }
 
 void Node::AddParent(Node *toAdd){
-  if(!HasParent(toAdd))
+  if(!HasParent(toAdd)){
     parents.push_back(toAdd);
+    SetDirty();
+  }
 }
 
 void Node::RemoveChild(Node *toRemove){
   NodeVector::iterator foundNode = find(children.begin(), children.end(), toRemove);
 
-  if(foundNode != children.end())
+  if(foundNode != children.end()){
     children.erase(foundNode);
+    SetDirty();
+  }
 }
 
 void Node::RemoveParent(Node *toRemove){
   NodeVector::iterator foundNode = find(parents.begin(), parents.end(), toRemove);
 
-  if(foundNode != parents.end())
+  if(foundNode != parents.end()){
     parents.erase(foundNode);
+    SetDirty();
+  }
 }
 
 ostream &operator<<(ostream &os, const Node &node){
-  os << "Node: id: " << node.id << " Type: " << node.type << " Value: " << node.value;
+  os << "Node: id: " << node.id 
+     << " Type: " << node.type 
+     << " Value: " << node.value
+     << " Dirty: " << node.Dirty();
 
   if(node.parents.size()){
     os << endl << "Parents (" << node.parents.size() << ")" << endl;
@@ -66,3 +99,20 @@ bool Node::HasChild(const Node *toFind){
   return find(children.begin(), children.end(), toFind) != children.end();
 }
 
+void Node::SetType(const char *newType){
+  type = newType;
+  SetDirty();
+}
+
+void Node::SetType(const string &newType){
+  SetType(newType.c_str());
+}
+
+void Node::SetValue(const char *newValue){
+  value = newValue;
+  SetDirty();
+}
+
+void Node::SetValue(const string &newValue){
+  SetValue(newValue.c_str());
+}

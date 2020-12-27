@@ -13,18 +13,24 @@ class Node{
     NodeVector parents, children;
 
     string id, type, value;
+    long int dbId = 0;
+    bool dirty = false;
 
     // Standardize ID generation.
     string GetId(void){
       return HexGenerator::generate_hex(16);
     }
 
+    bool SetDirty(const bool dirtyState = true);
+    bool SetClean(void);
+
   public:
-    Node():id(GetId()){};
-    Node(const string &type, const string &value = ""):id(GetId()), type(type), value(value){};
+    Node():id(GetId()), dirty(true){};
+    Node(const string &type, const string &value = ""):id(GetId()), type(type), value(value), dirty(true){};
 
     const NodeVector &Parents(void) const{return parents;}
 
+    bool Dirty(void) const{return dirty;}
     
     // Test that node has given node as a parent.
     bool HasParent(const Node *toFind) const;
@@ -38,18 +44,21 @@ class Node{
     const string &ID(void) const{return id;}
 
     const string &Type(void) const{return type;}
-    void SetType(const char *newType){type = newType;}
-    void SetType(const string &newType){SetType(newType.c_str());}
+    void SetType(const char *newType);
+    void SetType(const string &newType);
 
     const string &Value(void) const{return value;}
-    void SetValue(const char *newValue){value = newValue;}
-    void SetValue(const string &newValue){SetValue(newValue.c_str());}
+    void SetValue(const char *newValue);
+    void SetValue(const string &newValue);
 
     void AddChild(Node *toAdd);
     void AddParent(Node *toAdd);
 
     void RemoveParent(Node *toRemove);
     void RemoveChild(Node *toRemove);
+
+    bool Write(void);
+    bool Read(void);
 
     bool operator ==(const Node &node);
     friend ostream& operator<<(ostream& os, const Node& node);
