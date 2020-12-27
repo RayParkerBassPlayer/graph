@@ -61,28 +61,31 @@ void Node::RemoveParent(Node *toRemove){
 }
 
 ostream &operator<<(ostream &os, const Node &node){
-  os << "Node: id: " << node.id 
+  os << "Node: id: " << node.id
+     << " DB_ID: " << node.DbId()
      << " Type: " << node.type 
      << " Value: " << node.value
      << " Dirty: " << node.Dirty();
 
   if(node.parents.size()){
-    os << endl << "Parents (" << node.parents.size() << ")" << endl;
+    os << endl << "Parents (" << node.parents.size() << ")";
 
     for(Node *parent:node.children)
-      os << *parent << endl;
+      os << endl << *parent;
   }
   else
-    os << "No Parents (Orphaned: " << node.Orphaned() << ")" << endl;
+    os << endl<< "No Parents (Orphaned: " << node.Orphaned() << ")";
 
   if(node.children.size()){
-    os << endl << "Children (" << node.children.size() << ")" << endl;
+    os << endl << "Children (" << node.children.size() << ")";
 
     for(Node *child:node.children)
-      os << *child << endl;
+      os << endl << *child;
   }
   else
-    os << "No children." << endl;
+    os << endl << "No children.";
+
+  os << endl;
 
   return os;
 }
