@@ -23,7 +23,7 @@ int main(void){
 
   info("...finished loading Graph");
 
-  cout << *graph << endl;
+  // cout << *graph << endl;
 
   delete graph;
 
