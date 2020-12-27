@@ -14,5 +14,6 @@ typedef vector<Node *> NodeVector;
 typedef list<Node *> NodeList;
 
 typedef list<string> IdList;
+typedef long unsigned int DB_ID;
 
 #endif

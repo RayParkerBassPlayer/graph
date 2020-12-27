@@ -13,7 +13,7 @@ class Node{
     NodeVector parents, children;
 
     string id, type, value;
-    long int dbId = 0;
+    DB_ID dbId = 0;
     bool dirty = false;
 
     // Standardize ID generation.
@@ -42,6 +42,7 @@ class Node{
     bool Orphaned(void) const{return parents.size() == 0;}
 
     const string &ID(void) const{return id;}
+    DB_ID DbId(void) const {return dbId;}
 
     const string &Type(void) const{return type;}
     void SetType(const char *newType);
